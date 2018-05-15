@@ -1,7 +1,13 @@
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+int size;
+int num;
+int money1;
 
-int minChange( int* minCoinsList, int money )
+int minChange( int* &minCoinsList, int money )
 {
+    std::cout<<"minCoinsList[1]"<<std::endl;
     bool oddNo = true;
     int smallest[10000000];
     int minimumOfCoins;
@@ -47,30 +53,26 @@ int minChange( int* minCoinsList, int money )
 
 int main()
 {
-    int size = 0;
-    int money1 = 0;
     std::cout<< "Enter money "<<std::endl;
     std::cin>>money1;
     std::cout<< "Enter number of denominations "<<std::endl;
     std::cin>>size;
-    int* minCoins = nullptr;
-    minCoins = new int[10000000000];
-    int* coins = nullptr;
-    coins = new int [size];
+    num = 2*money1;
+    int* minCoins = new int[num]();
+    int* coins = new int[size]();
     std::cout<< "Enter denominations "<<std::endl;
     for( int i = 0; i < size; i++ )
     {
-        std::cin>>coins[i];
+        std::cin>>num;
+        coins[i] = num;
         minCoins[coins[i]] = 1;
+        std::cout<<coins[i]<<std::endl;
     } 
-    
     minCoins[0] = 0;
-    int minimumChange = minChange(&minCoins[0], money1);
+    int minimumChange = minChange(minCoins, money1);
     std::cout<<"Minimum number of coins is "<<minimumChange<<std::endl;
 
     delete [] minCoins;
-    minCoins = nullptr;
     delete [] coins;
-    coins = nullptr;
     return 0;
 }
