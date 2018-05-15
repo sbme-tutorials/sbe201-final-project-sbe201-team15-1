@@ -19,11 +19,11 @@ int minChange( int* minCoinsList, int &money )
         {
             bound = i/2;
             minimumOfCoins = 2*minCoinsList[bound];
-            bool oddNo = false;
+            oddNo = false;
         }  
         else
         {
-            bool oddNo = true;
+            oddNo = true;
             bound = (i-1)/2;
         }          
         for( int j = 1; j <= bound; j++)
@@ -47,8 +47,8 @@ int minChange( int* minCoinsList, int &money )
 
 int main()
 {
-    int size = 6;
-    int money1 = 40;
+    int size = 0;
+    int money1 = 0;
     std::cout<< "Enter money "<<std::endl;
     std::cin>>money1;
     std::cout<< "Enter number of denominations "<<std::endl;
