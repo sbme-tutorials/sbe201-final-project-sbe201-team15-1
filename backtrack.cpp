@@ -7,7 +7,7 @@ char** backtrack( std::string v, std::string w, long unsigned int row, long unsi
 {
     int match;
     char** back = new char*[row+1];
-    for ( int i = 0; i < row+1 ; i++ )
+    for ( int i = 0; i < row+1; i++ )
     {
         back[i] = new char[column+1];             
     }
@@ -15,24 +15,25 @@ char** backtrack( std::string v, std::string w, long unsigned int row, long unsi
     int s1;
     int s2;
     int s3;
-    int **s = new int*[row];
-    for ( int i = 0; i < row ; i++ )
+    int **s = new int*[row+1];
+    for ( int i = 0; i < row+1 ; i++ )
     {
-        s[i] = new int[column];                     
+        s[i] = new int[column+1];                     
     }
-    for(int i = 0; i < row; i++)
+    s[0][0] = 0;
+    for(int i = 1; i < row+1; i++)
     {
         s[i][0] = 0;
-        back[i+1][0] = '|';
+        back[i][0] = '|';
     }
-    for(int j = 0; j < column; j++)
+    for(int j = 1; j < column+1; j++)
     {
         s[0][j] = 0;
-        back[0][j+1] = '>';
+        back[0][j] = '>';
     }
-    for ( int i = 1; i < row ; i++)
+    for ( int i = 1; i <= row ; i++)
     {
-        for ( int j = 1; j < column; j++)
+        for ( int j = 1; j <= column; j++)
         {
             if( v[i-1] == w[j-1] )
             {
@@ -68,23 +69,32 @@ char** backtrack( std::string v, std::string w, long unsigned int row, long unsi
             else 
             {
                 back[i][j] = '/';
-            } 
+            }
+            //std::cout<<"backtrack ";
         }
+        //std::cout<<"backtrack ";
     }
-
+    //std::cout<<""<<std::endl;
     return back;
 }
 
 void LCS( char** back, std::string v, int i, int j, std::string &largComSeq )
 {
-    if( i == 0 || j == 0 ) return;
-    else if( back[i][j] == '>' )
+    if( i == 0 || j == 0 ) 
+    {
+        //std::cout<<"lgsEnd "<<std::endl; 
+        return;
+    }
+    if( back[i][j] == '>' )
     LCS( back, v, i, j-1, largComSeq );
     else if( back[i][j] == '|' )
     LCS( back, v, i-1, j, largComSeq );
     else 
-    LCS( back, v, i-1, j-1, largComSeq );
-    largComSeq[i] = v[i];
+    {
+        LCS( back, v, i-1, j-1, largComSeq );
+        largComSeq.push_back(v[i]);
+    }
+    //std::cout<<"lgs ";
 }
 
 int main()
@@ -97,21 +107,31 @@ int main()
     std::cin>>w;
     row = v.length();
     column = w.length();
+    //std::cout<<row<<"x"<<column<<std::endl;
     char** back = new char*[row+1];
     for ( int i = 0; i < row+1 ; i++ )
     {
         back[i] = new char[column+1];             
     }
     back = backtrack( v, w, row, column );
+    /*for ( int i = 0; i < row+1 ; i++)
+    {
+        for ( int j = 0; j < column+1 ; j++)
+        { 
+            std::cout << back[i][j] << " "; 
+                     
+        }
+        std::cout<<std::endl;
+    }*/
     std::string largCommSeq;
-    LCS( back, v, row, column, largCommSeq );
+    LCS( back, v, row-1, column-1, largCommSeq );
     std::cout<<"Largest common sequence is "<<std::endl;
-    for( int i = 0; i < row+1; i++ )
+    /*for( int i = 0; i < row; i++ )
     {
         std::cout<<largCommSeq[i];
     }
-    //std::cout<<largCommSeq;
-    std::cout<<""<<std::endl;
+    std::cout<<""<<std::endl;*/
+    std::cout<<largCommSeq<<std::endl;
 
     return 0;
 }
