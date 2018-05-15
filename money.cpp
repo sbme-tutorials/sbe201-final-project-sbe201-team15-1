@@ -1,6 +1,6 @@
 #include <iostream>
 
-int minChange( int* minCoinsList, int &money )
+int minChange( int* minCoinsList, int money )
 {
     bool oddNo = true;
     int smallest[10000000];
@@ -54,7 +54,7 @@ int main()
     std::cout<< "Enter number of denominations "<<std::endl;
     std::cin>>size;
     int* minCoins = nullptr;
-    minCoins = new int[2*money1];
+    minCoins = new int[10000000000];
     int* coins = nullptr;
     coins = new int [size];
     std::cout<< "Enter denominations "<<std::endl;
