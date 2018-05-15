@@ -225,7 +225,7 @@ void outputLCS(int **backtrack, std::string v, int i, int j)
 void outputLCS2(int **backtrack, std::string w, int i, int j)
 {
 
-    if (j < 0 || i < 0)
+    if (j < 0 || i < 0) // I HAVE NO IDEA WHY IT ONLY WORKS WHEN IT'S < and not == ... please,Eng Asem, remind me to ask you.
         return;
 
     else if (backtrack[i][j] == -2)
