@@ -30,22 +30,19 @@ Each of these scenarios is assigned a score and the sum of the score of each pai
 To find the alignment with the highest score, a two-dimensional array (or matrix) F is allocated. The entry in row i and column j is denoted here by F(i,j). There is one row for each character in sequence A, and one column for each character in sequence B. 
 The pseudo-code for the algorithm to compute the F matrix therefore looks like this:
 
-'''
-d ← MismatchScore
-for i=0 to length(A)
-  F(i,0) ← d*i 
-for j=0 to length(B)
-  F(0,j) ← d*j
-for i=1 to length(A)
-  for j=1 to length(B)
-  {
-    Match ← F(i-1,j-1) + S(Ai, Bj)
-    Delete ← F(i-1, j) + d
-    Insert ← F(i, j-1) + d
-    F(i,j) ← max(Match, Insert, Delete)
+* d ← MismatchScore
+* for i=0 to length(A)
+*  F(i,0) ← d*i 
+* for j=0 to length(B)
+*  F(0,j) ← d*j
+* for i=1 to length(A)
+*  for j=1 to length(B)
+*  {
+*    Match ← F(i-1,j-1) + S(Ai, Bj)
+*    Delete ← F(i-1, j) + d
+*    Insert ← F(i, j-1) + d
+*    F(i,j) ← max(Match, Insert, Delete)
   }
-
-'''
 
 Once the F matrix is computed, the entry F(n,m) gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A(i) and B(j) are aligned, if Delete, then A(i) is aligned with a gap, and if Insert, then B(j) is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
 
@@ -79,36 +76,19 @@ Once the F matrix is computed, the entry F(n,m) gives the maximum score among al
 	The algorithm uses the algorithms for The Change problem & The Manhattan Tourist problem.
 ### Local Alignment (Smith–Waterman algorithm):
 	The Smith–Waterman algorithm performs local sequence alignment; that is, for determining similar regions between two strings of nucleic acid sequences or protein sequences. Instead of looking at the entire sequence, the Smith–Waterman algorithm compares segments of all possible lengths and optimizes the similarity measure.
-![Alt Text](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm#/media/File:Smith-Waterman-Algorithm-Example-En.gif)	
+![Gif](https://upload.wikimedia.org/wikipedia/commons/9/92/Smith-Waterman-Algorithm-Example-En.gif)	
+
 * *Explanation:*
  1. **Determine the substitution matrix and the gap penalty scheme**. A substitution matrix assigns each pair of bases or amino acids a score for match or mismatch. Usually matches get positive scores, whereas mismatches get relatively lower scores. A gap penalty function determines the score cost for opening or extending gaps. 
  2. **Initialize the scoring matrix**. The dimensions of the scoring matrix are 1+length of each sequence respectively. All the elements of the first row and the first column are set to 0. The extra first row and first column make it possible to align one sequence to another at any position, and setting them to 0 makes the terminal gap free from penalty.
  3. **Scoring**. Score each element from left to right, top to bottom in the matrix, considering the outcomes of substitutions (diagonal scores) or adding gaps (horizontal and vertical scores). If none of the scores are positive, this element gets a 0. Otherwise the highest score is used and the source of that score is recorded.
  4. **Traceback**. Starting at the element with the highest score, traceback based on the source of each score recursively, until 0 is encountered. The segments that have the highest similarity score based on the given scoring system is generated in this process. To obtain the second best local alignment, apply the traceback process starting at the second highest score outside the trace of the best alignment.
 * *Algorithm:*
-	Let A = a 1 a 2 . . . a n {\displaystyle A=a_{1}a_{2}...a_{n}} {\displaystyle A=a_{1}a_{2}...a_{n}} and B = b 1 b 2 . . . b m {\displaystyle B=b_{1}b_{2}...b_{m}} {\displaystyle B=b_{1}b_{2}...b_{m}} be the sequences to be aligned, where n {\displaystyle n} n and m {\displaystyle m} m are the lengths of A {\displaystyle A} A and B {\displaystyle B} B respectively.
-
-	    Determine the substitution matrix and the gap penalty scheme.
-		s ( a , b ) {\displaystyle s(a,b)} s(a,b) - Similarity score of the elements that constituted the two sequences
-		W k {\displaystyle W_{k}} W_{k} - The penalty of a gap that has length k {\displaystyle k} k
-	    Construct a scoring matrix H {\displaystyle H} H and initialize its first row and first column. The size of the scoring matrix is ( n + 1 ) ∗ ( m + 1 ) {\displaystyle (n+1)*(m+1)} {\displaystyle (n+1)*(m+1)}. Note the 0-based indexing.
-
-		H k 0 = H 0 l = 0 f o r 0 ≤ k ≤ n a n d 0 ≤ l ≤ m {\displaystyle H_{k0}=H_{0l}=0\quad for\quad 0\leq k\leq n\quad and\quad 0\leq l\leq m} {\displaystyle H_{k0}=H_{0l}=0\quad for\quad 0\leq k\leq n\quad and\quad 0\leq l\leq m}
-
-	    Fill the scoring matrix using the equation below.
-
-		H i j = max { H i − 1 , j − 1 + s ( a i , b j ) , max k ≥ 1 { H i − k , j − W k } , max l ≥ 1 { H i , j − l − W l } , 0 ( 1 ≤ i ≤ n , 1 ≤ j ≤ m ) {\displaystyle H_{ij}=\max {\begin{cases}H_{i-1,j-1}+s(a_{i},b_{j}),\\\max _{k\geq 1}\{H_{i-k,j}-W_{k}\},\\\max _{l\geq 1}\{H_{i,j-l}-W_{l}\},\\0\end{cases}}\qquad (1\leq i\leq n,1\leq j\leq m)} {\displaystyle H_{ij}=\max {\begin{cases}H_{i-1,j-1}+s(a_{i},b_{j}),\\\max _{k\geq 1}\{H_{i-k,j}-W_{k}\},\\\max _{l\geq 1}\{H_{i,j-l}-W_{l}\},\\0\end{cases}}\qquad (1\leq i\leq n,1\leq j\leq m)}
-		where
-		H i − 1 , j − 1 + s ( a i , b j ) {\displaystyle H_{i-1,j-1}+s(a_{i},b_{j})} {\displaystyle H_{i-1,j-1}+s(a_{i},b_{j})} is the score of aligning a i {\displaystyle a_{i}} a_{i} and b j {\displaystyle b_{j}} b_{j},
-		H i − k , j − W k {\displaystyle H_{i-k,j}-W_{k}} {\displaystyle H_{i-k,j}-W_{k}} is the score if a i {\displaystyle a_{i}} a_{i} is at the end of a gap of length k {\displaystyle k} k,
-		H i , j − l − W l {\displaystyle H_{i,j-l}-W_{l}} {\displaystyle H_{i,j-l}-W_{l}} is the score if b j {\displaystyle b_{j}} b_{j} is at the end of a gap of length l {\displaystyle l} l,
-		0 {\displaystyle 0} {\displaystyle 0} means there is no similarity up to a i {\displaystyle a_{i}} a_{i} and b j {\displaystyle b_{j}} b_{j}.
-
-	    Traceback. Starting at the highest score in the scoring matrix H {\displaystyle H} H and ending at a matrix cell that has a score of 0, traceback based on the source of each score recursively to generate the best local alignment.
 
 # **Comparison between alignments**
-	The Smith–Waterman algorithm finds the segments in two sequences that have similarities while the Needleman–Wunsch algorithm aligns two complete sequences. Therefore, they serve different purposes. Both algorithms use the concepts of a substitution matrix, a gap penalty function, a scoring matrix, and a traceback process. Three main differences are:
-		|Smith–Waterman algorithm |	Needleman–Wunsch algorithm
+The Smith–Waterman algorithm finds the segments in two sequences that have similarities while the Needleman–Wunsch algorithm aligns two complete sequences. Therefore, they serve different purposes. Both algorithms use the concepts of a substitution matrix, a gap penalty function, a scoring matrix, and a traceback process. Three main differences are:
+
+POC		|Smith–Waterman algorithm |	Needleman–Wunsch algorithm
 ----------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------
 Initialization |	First row and first column are set to 0 |	First row and first column are subject to gap penalty
 Scoring        |	Negative score is set to 0 	        |      Score can be negative
