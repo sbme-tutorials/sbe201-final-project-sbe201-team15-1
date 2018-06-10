@@ -75,7 +75,7 @@ Once the F matrix is computed, the entry F(n,m) gives the maximum score among al
 
 	The algorithm uses the algorithms for The Change problem & The Manhattan Tourist problem.
 ### Local Alignment (Smith–Waterman algorithm):
-	The Smith–Waterman algorithm performs local sequence alignment; that is, for determining similar regions between two strings of nucleic acid sequences or protein sequences. Instead of looking at the entire sequence, the Smith–Waterman algorithm compares segments of all possible lengths and optimizes the similarity measure.
+The Smith–Waterman algorithm performs local sequence alignment; that is, for determining similar regions between two strings of nucleic acid sequences or protein sequences. Instead of looking at the entire sequence, the Smith–Waterman algorithm compares segments of all possible lengths and optimizes the similarity measure.
 ![Gif](https://upload.wikimedia.org/wikipedia/commons/9/92/Smith-Waterman-Algorithm-Example-En.gif)	
 
 * *Explanation:*
