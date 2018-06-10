@@ -23,9 +23,9 @@ The algorithm essentially divides a large problem (e.g. the full sequence) into 
 ![GitHub Logo](/global.png)
 
 The letters of the two strings may match, mismatch, or be matched to a gap (a deletion or insertion (indel)):
-   * Match: The two letters at the current index the same.
-   * Mismatch: The two letters at the current index are different.
-   * Indel (INsertion or DELetion): The best alignment involves one letter aligning to a gap in the other string.
+   1. Match: The two letters at the current index the same.
+   2. Mismatch: The two letters at the current index are different.
+   3. Indel (INsertion or DELetion): The best alignment involves one letter aligning to a gap in the other string.
 Each of these scenarios is assigned a score and the sum of the score of each pairing is the score of the whole alignment candidate. 
 To find the alignment with the highest score, a two-dimensional array (or matrix) F is allocated. The entry in row i and column j is denoted here by F(i,j). There is one row for each character in sequence A, and one column for each character in sequence B. 
 The pseudo-code for the algorithm to compute the F matrix therefore looks like this:
@@ -46,32 +46,32 @@ The pseudo-code for the algorithm to compute the F matrix therefore looks like t
 
 Once the F matrix is computed, the entry F(n,m) gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A(i) and B(j) are aligned, if Delete, then A(i) is aligned with a gap, and if Insert, then B(j) is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
 
-> AlignmentA ← ""
-> AlignmentB ← ""
-> i ← length(A)
-> j ← length(B)
-> while (i > 0 or j > 0)
-> {
->   if (i > 0 and j > 0 and F(i,j) == F(i-1,j-1) + S(Ai, Bj))
->   {
->     AlignmentA ← Ai + AlignmentA
->     AlignmentB ← Bj + AlignmentB
->     i ← i - 1
->     j ← j - 1
->   }
->   else if (i > 0 and F(i,j) == F(i-1,j) + d)
->   {
->     AlignmentA ← Ai + AlignmentA
->     AlignmentB ← "-" + AlignmentB
->     i ← i - 1
->   } 
->   else
->   {
->     AlignmentA ← "-" + AlignmentA
->     AlignmentB ← Bj + AlignmentB
->     j ← j - 1
->   }
-> }
+* AlignmentA ← ""
+* AlignmentB ← ""
+* i ← length(A)
+* j ← length(B)
+* while (i > 0 or j > 0)
+* {
+*   if (i > 0 and j > 0 and F(i,j) == F(i-1,j-1) + S(Ai, Bj))
+*   {
+*     AlignmentA ← Ai + AlignmentA
+*     AlignmentB ← Bj + AlignmentB
+*     i ← i - 1
+*     j ← j - 1
+*   }
+*   else if (i > 0 and F(i,j) == F(i-1,j) + d)
+*   {
+*     AlignmentA ← Ai + AlignmentA
+*     AlignmentB ← "-" + AlignmentB
+*     i ← i - 1
+*   } 
+*   else
+*   {
+*     AlignmentA ← "-" + AlignmentA
+*     AlignmentB ← Bj + AlignmentB
+*     j ← j - 1
+*   }
+* }
 
 	The algorithm uses the algorithms for The Change problem & The Manhattan Tourist problem.
 ### Local Alignment (Smith–Waterman algorithm):
