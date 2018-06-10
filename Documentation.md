@@ -33,7 +33,7 @@ The pseudo-code for the algorithm to compute the F matrix therefore looks like t
 '''
 d ← MismatchScore
 for i=0 to length(A)
-  F(i,0) ← d*i
+  F(i,0) ← d*i 
 for j=0 to length(B)
   F(0,j) ← d*j
 for i=1 to length(A)
@@ -44,6 +44,7 @@ for i=1 to length(A)
     Insert ← F(i, j-1) + d
     F(i,j) ← max(Match, Insert, Delete)
   }
+
 '''
 
 Once the F matrix is computed, the entry F(n,m) gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A(i) and B(j) are aligned, if Delete, then A(i) is aligned with a gap, and if Insert, then B(j) is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
