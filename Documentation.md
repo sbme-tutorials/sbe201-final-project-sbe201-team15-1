@@ -30,6 +30,8 @@ Each of these scenarios is assigned a score and the sum of the score of each pai
 To find the alignment with the highest score, a two-dimensional array (or matrix) F is allocated. The entry in row i and column j is denoted here by F(i,j). There is one row for each character in sequence A, and one column for each character in sequence B. 
 The pseudo-code for the algorithm to compute the F matrix therefore looks like this:
 
+```{r, tidy=FALSE, eval=FALSE, highlight=TRUE }
+
 * d ← MismatchScore
 * for i=0 to length(A)
 *  F(i,0) ← d*i 
@@ -43,6 +45,7 @@ The pseudo-code for the algorithm to compute the F matrix therefore looks like t
 *    Insert ← F(i, j-1) + d
 *    F(i,j) ← max(Match, Insert, Delete)
   }
+'''
 
 Once the F matrix is computed, the entry F(n,m) gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A(i) and B(j) are aligned, if Delete, then A(i) is aligned with a gap, and if Insert, then B(j) is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
 
