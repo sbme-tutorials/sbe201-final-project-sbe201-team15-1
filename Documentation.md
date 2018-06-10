@@ -6,38 +6,47 @@
 	Comparative genomics exploits both similarities and differences in the proteins, RNA, and regulatory regions of different organisms to infer how selection has acted upon these elements. Those elements that are responsible for similarities between different species should be conserved through time (stabilizing selection), while those elements responsible for differences among species should be divergent (positive selection). Finally, those elements that are unimportant to the evolutionary success of the organism will be unconserved (selection is neutral).
 
 # **Sequence Alignment**
-	Sequence alignment is a way of arranging the sequences of DNA, RNA, or protein to identify regions of similarity that may be a consequence of functional, structural, or evolutionary relationships between the sequences.
+
+Sequence alignment is a way of arranging the sequences of DNA, RNA, or protein to identify regions of similarity that may be a consequence of functional, structural, or evolutionary relationships between the sequences.
 ![GitHub Logo](/alignment.png)
-	If two sequences in an alignment share a common ancestor, mismatches can be interpreted as point mutations and gaps as indels (that is, insertion or deletion mutations) introduced in one or both lineages in the time since they diverged from one another. 
-	Computational approaches to sequence alignment generally fall into two categories: global alignments and local alignments.
+
+If two sequences in an alignment share a common ancestor, mismatches can be interpreted as point mutations and gaps as indels (that is, insertion or deletion mutations) introduced in one or both lineages in the time since they diverged from one another. 
+Computational approaches to sequence alignment generally fall into two categories: global alignments and local alignments.
+
 ## Global & Local Alignments:
-	Global alignments, which attempt to align every residue in every sequence, are most useful when the sequences in the query set are similar and of roughly equal size. A general global alignment technique is the Needleman–Wunsch algorithm, which is based on dynamic programming. Local alignments are more useful for dissimilar sequences that are suspected to contain regions of similarity or similar sequence motifs within their larger sequence context. The Smith–Waterman algorithm is a general local alignment method also based on dynamic programming.
+
+Global alignments, which attempt to align every residue in every sequence, are most useful when the sequences in the query set are similar and of roughly equal size. A general global alignment technique is the Needleman–Wunsch algorithm, which is based on dynamic programming. Local alignments are more useful for dissimilar sequences that are suspected to contain regions of similarity or similar sequence motifs within their larger sequence context. The Smith–Waterman algorithm is a general local alignment method also based on dynamic programming.
+
 ### Global Alignment (Needleman–Wunsch algorithm):
-	The algorithm essentially divides a large problem (e.g. the full sequence) into a series of smaller problems and uses the solutions to the smaller problems to reconstruct a solution to the larger problem. 
+	
+The algorithm essentially divides a large problem (e.g. the full sequence) into a series of smaller problems and uses the solutions to the smaller problems to reconstruct a solution to the larger problem. 
 ![GitHub Logo](/global.png)
-	The letters of the two strings may match, mismatch, or be matched to a gap (a deletion or insertion (indel)):
+
+The letters of the two strings may match, mismatch, or be matched to a gap (a deletion or insertion (indel)):
    * Match: The two letters at the current index the same.
    * Mismatch: The two letters at the current index are different.
    * Indel (INsertion or DELetion): The best alignment involves one letter aligning to a gap in the other string.
-	Each of these scenarios is assigned a score and the sum of the score of each pairing is the score of the whole alignment candidate. 
-	To find the alignment with the highest score, a two-dimensional array (or matrix) F is allocated. The entry in row i and column j is denoted here by F(i,j) {\displaystyle F_{ij}} F_{ij}. There is one row for each character in sequence A, and one column for each character in sequence B. 
-	The pseudo-code for the algorithm to compute the F matrix therefore looks like this:
+Each of these scenarios is assigned a score and the sum of the score of each pairing is the score of the whole alignment candidate. 
+To find the alignment with the highest score, a two-dimensional array (or matrix) F is allocated. The entry in row i and column j is denoted here by F(i,j). There is one row for each character in sequence A, and one column for each character in sequence B. 
+The pseudo-code for the algorithm to compute the F matrix therefore looks like this:
 
->d ← MismatchScore
->for i=0 to length(A)
->  F(i,0) ← d*i
->for j=0 to length(B)
->  F(0,j) ← d*j
->for i=1 to length(A)
->  for j=1 to length(B)
->  {
->    Match ← F(i-1,j-1) + S(Ai, Bj)
->    Delete ← F(i-1, j) + d
->    Insert ← F(i, j-1) + d
->    F(i,j) ← max(Match, Insert, Delete)
->  }
+'''
+d ← MismatchScore
+for i=0 to length(A)
+  F(i,0) ← d*i
+for j=0 to length(B)
+  F(0,j) ← d*j
+for i=1 to length(A)
+  for j=1 to length(B)
+  {
+    Match ← F(i-1,j-1) + S(Ai, Bj)
+    Delete ← F(i-1, j) + d
+    Insert ← F(i, j-1) + d
+    F(i,j) ← max(Match, Insert, Delete)
+  }
+'''
 
-	Once the F matrix is computed, the entry F n m {\displaystyle F_{nm}} F_{nm} gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A i {\displaystyle A_{i}} A_{i} and B j {\displaystyle B_{j}} B_j are aligned, if Delete, then A i {\displaystyle A_{i}} A_{i} is aligned with a gap, and if Insert, then B j {\displaystyle B_{j}} B_j is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
+Once the F matrix is computed, the entry F(n,m) gives the maximum score among all possible alignments. To compute an alignment that actually gives this score, you start from the bottom right cell, and compare the value with the three possible sources (Match, Insert, and Delete above) to see which it came from. If Match, then A(i) and B(j) are aligned, if Delete, then A(i) is aligned with a gap, and if Insert, then B(j) is aligned with a gap. (In general, more than one choice may have the same value, leading to alternative optimal alignments.)
 
 >AlignmentA ← ""
 >AlignmentB ← ""
