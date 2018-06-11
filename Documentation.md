@@ -90,7 +90,7 @@ The Smith–Waterman algorithm performs local sequence alignment; that is, for d
  2. **Initialize the scoring matrix**. The dimensions of the scoring matrix are 1+length of each sequence respectively. All the elements of the first row and the first column are set to 0. The extra first row and first column make it possible to align one sequence to another at any position, and setting them to 0 makes the terminal gap free from penalty.
  3. **Scoring**. Score each element from left to right, top to bottom in the matrix, considering the outcomes of substitutions (diagonal scores) or adding gaps (horizontal and vertical scores). If none of the scores are positive, this element gets a 0. Otherwise the highest score is used and the source of that score is recorded.
  4. **Traceback**. Starting at the element with the highest score, traceback based on the source of each score recursively, until 0 is encountered. The segments that have the highest similarity score based on the given scoring system is generated in this process. To obtain the second best local alignment, apply the traceback process starting at the second highest score outside the trace of the best alignment.
-* *Algorithm:*
+
 
 # **Comparison between alignments**
 The Smith–Waterman algorithm finds the segments in two sequences that have similarities while the Needleman–Wunsch algorithm aligns two complete sequences. Therefore, they serve different purposes. Both algorithms use the concepts of a substitution matrix, a gap penalty function, a scoring matrix, and a traceback process. Three main differences are:
@@ -109,4 +109,10 @@ Traceback      | 	Begin with the highest score, end when 0 is encountered |	Begi
 5. https://en.wikipedia.org/wiki/Sequence_alignment
 6. https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm
 
+# **Done by**
 
+Name | E-mail |
+-----|----------|
+Merna Atef Salah | merna.atef.salah@gmail.com
+Youssef Gamal Youssef | youssefgamal84@yahoo.com
+Peter Emad | 
